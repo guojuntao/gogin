@@ -4,19 +4,20 @@ import (
 	"git.finogeeks.club/finochat/go-gin/config"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	// "github.com/globalsign/mgo"
+	// "github.com/globalsign/mgo/bson"
 	"net"
-	"strings"
 )
 
 var (
-	dbses   Session
-	itemCol Collection
+	dbses Session
+	cfg   config.Config
 )
 
 func init() {
-	cfg := config.GetConfig()
+	cfg = config.GetConfig()
 	dbses = InitDB(cfg.MongoDomain, cfg.MongoPort, cfg.MongoAuth)
-	itemCol = dbses.GetDBCol(cfg.DbName, cfg.ItemCollection)
+	itemCol := dbses.GetDBCol(cfg.DbName, cfg.ItemCollection)
 
 	if err := EnsureIndex(itemCol, "id", true); err != nil {
 		panic(err)
@@ -85,42 +86,30 @@ func (ses Session) UninitDB() {
 	ses.Close()
 }
 
-func checkAndRefreshDb(err error) {
-	errStr := err.Error()
-	if errStr == "EOF" || strings.Contains(errStr, "i/o timeout") {
-		// 断开重连
-		dbses.Refresh()
-	}
-}
-
 func FindItem(ID string) (obj Item, err error) {
-	err = itemCol.Find(bson.M{"id": ID}).One(&obj)
-	if err != nil {
-		checkAndRefreshDb(err)
-	}
+	ses := Session{dbses.Session.Copy()}
+	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
+	err = col.Find(bson.M{"id": ID}).One(&obj)
 	return
 }
 
 func InsertItem(obj Item) (err error) {
-	err = itemCol.Insert(&obj)
-	if err != nil {
-		checkAndRefreshDb(err)
-	}
+	ses := Session{dbses.Session.Copy()}
+	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
+	err = col.Insert(&obj)
 	return
 }
 
 func UpdateItem(ID string, obj Item) (err error) {
-	err = itemCol.Update(bson.M{"id": ID}, obj)
-	if err != nil {
-		checkAndRefreshDb(err)
-	}
+	ses := Session{dbses.Session.Copy()}
+	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
+	err = col.Update(bson.M{"id": ID}, obj)
 	return
 }
 
 func DeleteItem(ID string) (err error) {
-	err = itemCol.Remove(bson.M{"id": ID})
-	if err != nil {
-		checkAndRefreshDb(err)
-	}
+	ses := Session{dbses.Session.Copy()}
+	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
+	err = col.Remove(bson.M{"id": ID})
 	return
 }
