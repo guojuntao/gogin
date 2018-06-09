@@ -3,6 +3,7 @@ package main
 import (
 	"git.finogeeks.club/finochat/go-gin/api"
 	"git.finogeeks.club/finochat/go-gin/config"
+	"git.finogeeks.club/finochat/go-gin/logger"
 	"git.finogeeks.club/finochat/go-gin/middleware"
 	"github.com/gin-gonic/gin"
 )
@@ -20,5 +21,7 @@ func main() {
 	baseGroup.PUT("/item/:ID", api.PutHandler)
 	baseGroup.DELETE("/item/:ID", api.DeleteHandler)
 
+	var log = logger.GetLogger()
+	log.Noticeln("[gin-demo running...]")
 	router.Run(":" + cfg.HttpPort)
 }

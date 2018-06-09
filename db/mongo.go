@@ -88,6 +88,7 @@ func (ses Session) UninitDB() {
 
 func FindItem(ID string) (obj Item, err error) {
 	ses := Session{dbses.Session.Copy()}
+	defer ses.Session.Close()
 	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
 	err = col.Find(bson.M{"id": ID}).One(&obj)
 	return
@@ -95,6 +96,7 @@ func FindItem(ID string) (obj Item, err error) {
 
 func InsertItem(obj Item) (err error) {
 	ses := Session{dbses.Session.Copy()}
+	defer ses.Session.Close()
 	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
 	err = col.Insert(&obj)
 	return
@@ -102,6 +104,7 @@ func InsertItem(obj Item) (err error) {
 
 func UpdateItem(ID string, obj Item) (err error) {
 	ses := Session{dbses.Session.Copy()}
+	defer ses.Session.Close()
 	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
 	err = col.Update(bson.M{"id": ID}, obj)
 	return
@@ -109,6 +112,7 @@ func UpdateItem(ID string, obj Item) (err error) {
 
 func DeleteItem(ID string) (err error) {
 	ses := Session{dbses.Session.Copy()}
+	defer ses.Session.Close()
 	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
 	err = col.Remove(bson.M{"id": ID})
 	return
