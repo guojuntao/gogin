@@ -1,23 +1,12 @@
 package main
 
 import (
-	"net/http"
-	_ "net/http/pprof"
-
 	"git.finogeeks.club/finochat/go-gin/api"
 	"git.finogeeks.club/finochat/go-gin/config"
 	"git.finogeeks.club/finochat/go-gin/logger"
 	"git.finogeeks.club/finochat/go-gin/middleware"
 	"github.com/gin-gonic/gin"
 )
-
-func init() {
-	// TODO: 条件编译，打 tag 的提交不编译 pprof
-	go func() {
-		// /debug/pprof
-		http.ListenAndServe("0.0.0.0:8080", nil)
-	}()
-}
 
 var VERSION string = "unknown"
 

@@ -7,7 +7,8 @@ build:
   image: docker.finogeeks.club/build/golang:1.9.2
   pull: true
   commands:
-    - CGO_ENABLED=0 go build -v -a -ldflags "-X main.VERSION=$$TAG"
+    - CGO_ENABLED=0 go build -v -a -tags pprof -ldflags "-X main.VERSION=$$TAG"
+    # - CGO_ENABLED=0 go build -v -a -ldflags "-X main.VERSION=$$TAG" # TODO: evnet: tag 不编译 pprof
 
 publish:
   docker:
@@ -21,4 +22,4 @@ publish:
     repo: finochat/go-gin
     file: Dockerfile
     when:
-      event: tag
+      branch: master
