@@ -1,0 +1,24 @@
+clone:
+  tags: true
+build:
+  environment:
+    - http_proxy=http://10.135.186.25:3128
+    - https_proxy=http://10.135.186.25:3128
+  image: docker.finogeeks.club/build/golang:1.9.2
+  pull: true
+  commands:
+    - CGO_ENABLED=0 go build -v -a -ldflags "-X main.VERSION=$$TAG"
+
+publish:
+  docker:
+    repo: finochat/go-gin
+    tag:
+      - "$$TAG"
+    file: Dockerfile
+    when:
+      event: tag
+  docker:
+    repo: finochat/go-gin
+    file: Dockerfile
+    when:
+      event: tag

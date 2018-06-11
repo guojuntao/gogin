@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var VERSION string = "unknown"
+
 func main() {
 	cfg := config.GetConfig()
 	gin.SetMode(gin.ReleaseMode)
@@ -22,6 +24,6 @@ func main() {
 	baseGroup.DELETE("/item/:ID", api.DeleteHandler)
 
 	var log = logger.GetLogger()
-	log.Noticeln("[gin-demo running...]")
+	log.Noticef("[gin-demo running... version %s]\n", VERSION)
 	router.Run(":" + cfg.HttpPort)
 }
