@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var VERSION string = "unknown"
+var version = "unknown"
 
 func new() *gin.Engine {
 	r := gin.New()
@@ -30,6 +30,6 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := new()
 	var log = logger.GetLogger()
-	log.Noticef("[gin-demo running... version %s]\n", VERSION)
+	log.Noticef("[gin-demo running... version %s]\n", version)
 	r.Run(":" + cfg.HttpPort)
 }
