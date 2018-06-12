@@ -1,3 +1,5 @@
+go-gin [![Build Status](https://ci.finogeeks.club/api/badges/finochat/go-gin/status.svg)](https://ci.finogeeks.club/finochat/go-gin)
+---
 ### Golang Http 服务脚手架
 
 * 使用 [Gin](https://github.com/gin-gonic/gin) 作为 web 框架; 另推荐 [gorilla/mux](https://github.com/gorilla/mux)
