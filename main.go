@@ -10,9 +10,7 @@ import (
 
 var VERSION string = "unknown"
 
-func main() {
-	cfg := config.GetConfig()
-	gin.SetMode(gin.ReleaseMode)
+func new() *gin.Engine {
 	r := gin.New()
 	r.Use(middleware.FinoMonitor())
 	r.Use(gin.Logger(), gin.Recovery())
@@ -23,6 +21,14 @@ func main() {
 	baseGroup.PUT("/item/:ID", api.PutHandler)
 	baseGroup.DELETE("/item/:ID", api.DeleteHandler)
 
+	return r
+
+}
+
+func main() {
+	cfg := config.GetConfig()
+	gin.SetMode(gin.ReleaseMode)
+	r := new()
 	var log = logger.GetLogger()
 	log.Noticef("[gin-demo running... version %s]\n", VERSION)
 	r.Run(":" + cfg.HttpPort)

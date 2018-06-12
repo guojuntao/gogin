@@ -29,7 +29,7 @@ func PostHandler(c *gin.Context) {
 
 	if err := db.InsertItem(reqItem); err != nil {
 		log.Errorf("InsertItem [%+v] error [%v]", reqItem, err)
-		c.JSON(http.StatusNotFound, newError("FC_INVALID_PARAMS", "插入失败"))
+		c.JSON(http.StatusBadRequest, newError("FC_INVALID_PARAMS", "插入失败"))
 		return
 	}
 
