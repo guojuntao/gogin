@@ -14,6 +14,10 @@ type Config struct {
 
 	DbName         string
 	ItemCollection string
+
+	LogFile  string
+	DebugLog bool
+	TraceLog bool
 }
 
 var config Config
@@ -33,6 +37,10 @@ func getConfig() (cfg Config) {
 	cfg.DbName = getEnv("db", "go-gin")
 	cfg.ItemCollection = getEnv("itemCol", "item")
 
+	cfg.LogFile = getEnv("logFile", "")
+	cfg.DebugLog = getEnvBool("debugLog", true)
+	cfg.TraceLog = getEnvBool("traceLog", true)
+
 	mongoAuth := os.Getenv("mongoAuth")
 	if mongoAuth != "" {
 		cfg.MongoAuth = mongoAuth + "@"
@@ -44,6 +52,17 @@ func getConfig() (cfg Config) {
 func getEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
+	}
+	return fallback
+}
+
+func getEnvBool(key string, fallback bool) bool {
+	if str, ok := os.LookupEnv(key); ok {
+		if str == "true" {
+			return true
+		} else if str == "false" {
+			return false
+		}
 	}
 	return fallback
 }

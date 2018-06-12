@@ -1,16 +1,26 @@
 package logger
 
+import (
+	"git.finogeeks.club/finochat/go-gin/config"
+)
+
 var l *Logger
 
 func init() {
+	cfg := config.GetConfig()
+
 	time := true
 	file := true
-	debug := true
-	trace := true
+	debug := cfg.DebugLog
+	trace := cfg.TraceLog
 	colors := true
 	pid := false
 
-	l = NewStdLogger(time, file, debug, trace, colors, pid)
+	if cfg.LogFile == "" {
+		l = NewStdLogger(time, file, debug, trace, colors, pid)
+	} else {
+		l = NewFileLogger(cfg.LogFile, time, file, debug, trace, pid)
+	}
 }
 
 func GetLogger() *Logger {

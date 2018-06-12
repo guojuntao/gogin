@@ -1,9 +1,12 @@
 // Copyright 2012-2015 Apcera Inc. All rights reserved.
 
 // Package logger provides logging facilities for the NATS server
-//	做了如下修改:
+//
+// 基于 NATS server log，做了如下修改:
 //		1、打印日志添加文件行号;
 //		2、在 printf 之外，提供 println 接口，不提供 print 接口.
+//  Author:
+//		guojuntao
 
 package logger
 

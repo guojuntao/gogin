@@ -12,8 +12,8 @@ var version = "unknown"
 
 func new() *gin.Engine {
 	r := gin.New()
-	r.Use(middleware.FinoMonitor())
-	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middleware.FinoMonitor(), middleware.RequestRecord())
+	r.Use(gin.Recovery())
 
 	baseGroup := r.Group("/api/v1/", func(c *gin.Context) {})
 	baseGroup.GET("/item/:ID", api.GetHandler)
