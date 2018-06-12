@@ -106,7 +106,7 @@ func UpdateItem(ID string, obj Item) (err error) {
 	ses := Session{dbses.Session.Copy()}
 	defer ses.Session.Close()
 	col := ses.GetDBCol(cfg.DbName, cfg.ItemCollection)
-	err = col.Update(bson.M{"id": ID}, obj)
+	_, err = col.Upsert(bson.M{"id": ID}, obj)
 	return
 }
 
