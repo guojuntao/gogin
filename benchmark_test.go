@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"git.finogeeks.club/finochat/go-gin/api"
 	"git.finogeeks.club/finochat/go-gin/db"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -13,7 +14,10 @@ import (
 // run ```go test -bench=.```
 func BenchmarkGet(b *testing.B) {
 	gin.SetMode(gin.TestMode)
-	r := new()
+	r := gin.New()
+	baseGroup := r.Group("/api/v1/", func(c *gin.Context) {})
+	baseGroup.GET("/item/:ID", api.GetHandler)
+	baseGroup.PUT("/item/:ID", api.PutHandler)
 
 	// PUT
 	{
