@@ -1,4 +1,4 @@
-go-gin [![Build Status](https://ci.finogeeks.club/api/badges/finochat/go-gin/status.svg)](https://ci.finogeeks.club/finochat/go-gin)
+go-gin <!--[![Build Status](https://ci.finogeeks.club/api/badges/finochat/go-gin/status.svg)](https://ci.finogeeks.club/finochat/go-gin)-->
 ---
 ### Golang Http 服务脚手架
 
